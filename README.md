@@ -50,3 +50,6 @@
  
   ## Roles
   - Roles are define using the ```ansible-galaxy init``` command and used to manage all the things defined above in their seperate dirs, so handlers will have it's own dir and it has ```main.yml``` file where the           handlers go. Similarly, the tasks go in tasks dir, the inventory files go in inventory dir, the variables go in variables dir and the playbook will define the roles instead of tasks in a list format. 
+
+  ## debug
+  - It is used as echo and can have ```var``` and ```msg``` as a parameter where var can have direct access to the variable where as msg is used to       deliver a message and can have variables as ```{{variable name}}``` 
