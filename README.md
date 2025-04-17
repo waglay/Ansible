@@ -31,27 +31,28 @@
 - We can store the result of an execution or the logs in a variable as well.
 - ```
   - hosts: web_servers
-  tasks:
-     - name: Run a shell command and register its output as a variable
-       ansible.builtin.shell: /usr/bin/foo
-       register: foo_result
-       ignore_errors: true
+    tasks:
+      - name: Run a shell command and register its output as a variable
+        ansible.builtin.shell: /usr/bin/foo
+        register: foo_result
+        ignore_errors: true
 
-     - name: Run a shell command using output of the previous task
-       ansible.builtin.shell: /usr/bin/bar
-       when: foo_result.rc == 5
+      - name: Run a shell command using output of the previous task
+        ansible.builtin.shell: /usr/bin/bar
+        when: foo_result.rc == 5
   ```
 
-  ## Handlers
+## Handlers
   - These are like triggers that is set alongside tasks, it is a task but triggered task which is executed if a ```notify``` keyword is defined in a task. It will only notify if the task is changed, there is no             notification on unchanged tasks.
  
-  ## Templates, Files and Copy
+## Templates, Files and Copy
   - Templates are similar to copy but the files defined in template can use the variables from ansible.
+  - By default templates have the ```file extension``` as ```.j2``` also known as ```Jinja2 format``` 
   - We can change file permissions, ownerships and file related work using files.
   - Copy is copy.😁
  
-  ## Roles
+## Roles
   - Roles are define using the ```ansible-galaxy init``` command and used to manage all the things defined above in their seperate dirs, so handlers will have it's own dir and it has ```main.yml``` file where the           handlers go. Similarly, the tasks go in tasks dir, the inventory files go in inventory dir, the variables go in variables dir and the playbook will define the roles instead of tasks in a list format. 
 
-  ## debug
+## debug
   - It is used as echo and can have ```var``` and ```msg``` as a parameter where var can have direct access to the variable where as msg is used to       deliver a message and can have variables as ```{{variable name}}``` 
