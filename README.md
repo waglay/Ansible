@@ -7,7 +7,7 @@
 - After adding all the details, the hosts informations can be added in groups as parent and child, the structure is followed in inventory.yml file in this repo.
 - Variables can be added in the inventory file as well.
 
-## Achoc commands
+## Adhoc commands
 - After adding the inventory file we can test it using adhoc commands to test the connection or to execute package installation or several other tasks.
 - To execute the adhoc commands we can use ```ansible -m ansible.builtin.yum -a "git" -i inventory.yml``` similar structure.
 
@@ -29,3 +29,24 @@
 - We can also pass the variable as we do in docker like ```- e``` which will have higher priority than hosts.
 - Ansible itself gathers a lot of information and variables in the ```gathering facts``` section. We can use these variables as we like in ```conditions``` we can use ```when``` keyword to define conditions.
 - We can store the result of an execution or the logs in a variable as well.
+- ```
+  - hosts: web_servers
+  tasks:
+     - name: Run a shell command and register its output as a variable
+       ansible.builtin.shell: /usr/bin/foo
+       register: foo_result
+       ignore_errors: true
+
+     - name: Run a shell command using output of the previous task
+       ansible.builtin.shell: /usr/bin/bar
+       when: foo_result.rc == 5
+  ```
+
+  ## Handlers
+  - These are like triggers that is set alongside tasks, it is a task but triggered task which is executed if a ```notify``` keyword is defined in a task. It will only notify if the task is changed, there is no             notification on unchanged tasks.
+ 
+  ## Templates, Files and Copy
+  - Templates are similar to copy but the files defined in template can use the variables from ansible.
+ 
+  ## Roles
+  - Roles are define using the ```ansible-galaxy init``` command and used to manage all the things defined above in their seperate dirs, so handlers will have it's own dir and it has ```main.yml``` file where the           handlers go. Similarly, the tasks go in tasks dir, the inventory files go in inventory dir, the variables go in variables dir and the playbook will define the roles instead of tasks in a list format. 
