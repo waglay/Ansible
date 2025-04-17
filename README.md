@@ -47,6 +47,8 @@
  
   ## Templates, Files and Copy
   - Templates are similar to copy but the files defined in template can use the variables from ansible.
+  - We can change file permissions, ownerships and file related work using files.
+  - Copy is copy.😁
  
   ## Roles
   - Roles are define using the ```ansible-galaxy init``` command and used to manage all the things defined above in their seperate dirs, so handlers will have it's own dir and it has ```main.yml``` file where the           handlers go. Similarly, the tasks go in tasks dir, the inventory files go in inventory dir, the variables go in variables dir and the playbook will define the roles instead of tasks in a list format. 

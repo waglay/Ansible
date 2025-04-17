@@ -1,6 +1,7 @@
 - name: Install Docker in Servers
   hosts: servers
   become: yes
+  # gather_facts: false
   tasks:
     - name: Add repo in Ubuntu      
       ansible.builtin.shell: 
@@ -16,6 +17,7 @@
           $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
           sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
           sudo apt-get update
+      register: result
       # notify:
       #   - Success Print
     
@@ -34,6 +36,8 @@
         var: inventory_hostname
     - debug:
         var: ansible_lo.features.fcoe_mtu
+    - debug:
+        msg: "this is the registered result: {{result}}"
 
   handlers:
     - name: Success Print
