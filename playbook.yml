@@ -1,0 +1,41 @@
+- name: Install Docker in Servers
+  hosts: servers
+  become: yes
+  tasks:
+    - name: Add repo in Ubuntu      
+      ansible.builtin.shell: 
+        cmd: |
+          apt-get update -y
+          apt-get install ca-certificates curl -y
+          sudo install -m 0755 -d /etc/apt/keyrings
+          sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+          sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+          echo \
+          "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+          $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+          sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+          sudo apt-get update
+      # notify:
+      #   - Success Print
+    
+    - name: Install Docker
+      ansible.builtin.apt:
+        name:
+          - docker-ce 
+          - docker-ce-cli 
+          - containerd.io 
+          - docker-buildx-plugin 
+          - docker-compose-plugin 
+          - glances
+      notify:
+        - Success Print
+    - debug:
+        var: inventory_hostname
+    - debug:
+        var: ansible_lo.features.fcoe_mtu
+
+  handlers:
+    - name: Success Print
+      debug:
+        msg: "the handler was called successfully from {{inventory_hostname}}"  

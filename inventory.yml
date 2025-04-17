@@ -1,0 +1,23 @@
+all:
+  hosts:
+    server1:
+      # ansible_host: 127.0.0.1
+      # ansible_user: vagrant
+      ansible_port: 2200
+      ansible_ssh_private_key_file: /Users/shishir/Projects/vagrant/multi-ubuntu/.vagrant/machines/ubuntu_server_1/qemu/private_key
+    server2:
+      # ansible_host: 127.0.0.1
+      # ansible_user: vagrant
+      ansible_port: 2201
+      ansible_ssh_private_key_file: /Users/shishir/Projects/vagrant/multi-ubuntu/.vagrant/machines/ubuntu_server_2/qemu/private_key
+  children:
+    servers:
+      hosts:
+        server1:
+        server2:
+    region:
+      children:
+        servers:
+  vars:
+    ansible_host: 127.0.0.1
+    ansible_user: vagrant
